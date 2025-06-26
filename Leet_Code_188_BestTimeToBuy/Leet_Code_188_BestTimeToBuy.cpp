@@ -1,16 +1,19 @@
 #include <vector>
-#include <algorithm> 
-#include <climits> 
+#include <algorithm>
+#include <climits>
 
-class Solution {
+class Solution
+{
 public:
-    int maxProfit(int k, std::vector<int>& prices) {
+    int maxProfit(int k, std::vector<int> &prices)
+    {
         int n = prices.size();
 
         // Caso lucro zero:
         // Se não tem dias suficientes para, no mínimo, uma compra e uma venda,
         // ou se o enunciado não permite transações (k=0), o lucro é impossível.
-        if (n < 2 || k == 0) {
+        if (n < 2 || k == 0)
+        {
             return 0;
         }
 
@@ -19,15 +22,17 @@ public:
         std::vector<int> vendas(k + 1, 0);
 
         // Compras[j] é o valor máximo após a j-ésima compra.
-        // Pensando que uma compra sempre tem um custo, o valor fica negativo. Com o `INT_MIN`, consigo garantir que a primeira compra real 
+        // Pensando que uma compra sempre tem um custo, o valor fica negativo. Com o `INT_MIN`, consigo garantir que a primeira compra real
         // (lucro da venda anterior - o preço de hoje) seja sempre um valor melhor do que este ponto de partida.
         std::vector<int> compras(k + 1, INT_MIN);
 
         // Percorrendo cada dia
-        for (int price : prices) {
+        for (int price : prices)
+        {
             // Para cada dia, será reavaliado qual é a melhor opção para cada transação j.
-            for (int j = 1; j <= k; ++j) {
-                // Para a j-ésima compra, é possível manter a ação que já havia sido comprada antes ou comprar a ação hoje. 
+            for (int j = 1; j <= k; ++j)
+            {
+                // Para a j-ésima compra, é possível manter a ação que já havia sido comprada antes ou comprar a ação hoje.
                 // Para esta decisão, optei por subtrair o lucro da venda anterior vendas[j-1] e subtrair pelo preço de hoje. No fim, escolhe a melhor opção entre as duas.
                 compras[j] = std::max(compras[j], vendas[j - 1] - price);
 
